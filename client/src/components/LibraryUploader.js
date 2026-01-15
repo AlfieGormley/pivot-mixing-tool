@@ -8,22 +8,20 @@ const LibraryUploader = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [uploadMessage, setUploadMessage] = useState('');
   const [error, setError] = useState(null);
+  const [trackData, setTrackData] = useState([]);
 
   const handleUpload = async () => {
     setIsLoading(true);
     setError(null);
     setUploadMessage('');
+    setTrackData([]);
 
     try {
-      const response = await uploadRekordboxXml(selectedFile);
-
-      if (response.status === 'success') {
-        setUploadMessage(response.message);
-      } else {
-        setError(response.message);
-      }
+      const payload = await uploadRekordboxXml(selectedFile);
+      setTrackData(payload);
+      setUploadMessage(`Successfully processed ${payload.length} tracks.`);
     } catch (err) {
-      setError(err.message || 'Failed to connect to the server.');
+      setError(err.message);
     } finally {
       setIsLoading(false);
     }
@@ -76,6 +74,13 @@ const LibraryUploader = () => {
         >
           {error}
         </Alert>
+      )}
+      {trackData.length > 0 && (
+        <div style={{ marginTop: '20px' }}>
+          <h3>Processed Tracks:</h3>
+          <pre>{JSON.stringify(trackData.slice(0, 5), null, 2)}</pre>
+          <p>...and {trackData.length - 5} more.</p>
+        </div>
       )}
     </>
   );

@@ -60,5 +60,3 @@ def parse_rekordbox_xml(file_object):
     
     except ET.ParseError:
         raise ValueError("Invalid File: The uploaded file is not a valid XML document.")
-    except Exception as e:
-        raise e

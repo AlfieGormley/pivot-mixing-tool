@@ -14,12 +14,34 @@ export const uploadRekordboxXml = async (file) => {
     body: formData,
   });
 
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    const errorMessage =
-      errorData.error || `HTTP error! Status: ${response.status}`;
+  const data = await response.json();
+
+  if (!response.ok || data.status === 'error') {
+    const errorMessage = data.error || `HTTP error! Status: ${response.status}`;
     throw new Error(errorMessage);
   }
 
-  return response.json();
+  return data.payload;
+};
+
+export const getPivotBpm = async (originBpm, destinationBpm) => {
+  const response = await fetch(`${API_BASE_URL}/get-pivot-bpm`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      origin_bpm: originBpm,
+      destination_bpm: destinationBpm,
+    }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok || data.status === 'error') {
+    const errorMessage = data.error || `HTTP error! Status: ${response.status}`;
+    throw new Error(errorMessage);
+  }
+
+  return data.payload;
 };
