@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getPivotBpm } from '../api/apiService';
 import { RangeSlider } from '@mantine/core';
+import PivotTrackSuggestions from './PivotTrackSuggestions';
 
 function PivotCalculator() {
   const [bpms, setBpms] = useState([110, 180]);
@@ -26,7 +27,7 @@ function PivotCalculator() {
       }
     };
     handleCalculate();
-  }, [bpms]);
+  }, [bpms, destinationBpm, originBpm]);
 
   return (
     <>
@@ -44,14 +45,20 @@ function PivotCalculator() {
             <p style={{ color: 'red', marginTop: '15px' }}>Error: {error}</p>
           )}
           {result && (
-            <div style={{ marginTop: '15px' }}>
-              <h3>Result:</h3>
-              <p>
-                Pivot BPM: {result.pivot_bpm} (Ratio: {result.ratio})
-              </p>
-            </div>
+            <>
+              <div style={{ marginTop: '15px' }}>
+                <h3>Result:</h3>
+                <p>
+                  Pivot BPM: {result.pivot_bpm} (Ratio: {result.ratio})
+                </p>
+              </div>
+              <PivotTrackSuggestions
+                pivotBpm={result.pivot_bpm}
+              ></PivotTrackSuggestions>
+            </>
           )}
         </div>
+
         <RangeSlider
           style={{
             maxWidth: '50%',

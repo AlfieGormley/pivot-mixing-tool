@@ -45,3 +45,25 @@ export const getPivotBpm = async (originBpm, destinationBpm) => {
 
   return data.payload;
 };
+
+export const getTracksByBpm = async (targetBpm, range = 0) => {
+  const response = await fetch(`${API_BASE_URL}/tracks/by-bpm`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      target_bpm: targetBpm,
+      range: range,
+    }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok || data.status === 'error') {
+    const errorMessage = data.error || `HTTP error! Status: ${response.status}`;
+    throw new Error(errorMessage);
+  }
+
+  return data.payload;
+};

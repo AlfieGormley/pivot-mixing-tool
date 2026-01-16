@@ -1,6 +1,26 @@
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
+# Temporary in-memory solution for storing tracks
+# To be replaced with database solution after multi-user session implementation
+TRACKS = []
+
+def save_tracks(tracks):
+    global TRACKS
+    TRACKS = tracks
+
+def find_tracks_by_bpm(target_bpm, range=0):
+    suitable_tracks = []
+    for track in TRACKS:
+        track_bpm = track.get("BPM")
+        try:
+            if track_bpm and abs(float(track_bpm) - float(target_bpm)) <= range:
+                suitable_tracks.append(track)
+        except (ValueError, TypeError):
+            continue
+    
+    return suitable_tracks
+
 def parse_rekordbox_xml(file_object):
 
     try:
@@ -24,7 +44,7 @@ def parse_rekordbox_xml(file_object):
             raise ValueError("Invalid Rekordbox XML: The file does not contain a track collection or is in an unsupported format.")
         
 
-        playlist_tracks = []
+        parsed_tracks = []
         processed_track_ids = set()
             
         def build_track_list(node, current_path = ""):
@@ -38,7 +58,7 @@ def parse_rekordbox_xml(file_object):
                 if track_id in collection_lookup and track_id not in processed_track_ids:
                     track_data = collection_lookup[track_id].copy()
                     track_data["PlaylistPath"] = new_path
-                    playlist_tracks.append(track_data)
+                    parsed_tracks.append(track_data)
                     processed_track_ids.add(track_id)
                 
             for child_node in node.findall('NODE'):
@@ -56,7 +76,7 @@ def parse_rekordbox_xml(file_object):
         for node in playlist_root.findall('NODE'):
             build_track_list(node)
 
-        return playlist_tracks
+        return parsed_tracks
     
     except ET.ParseError:
         raise ValueError("Invalid File: The uploaded file is not a valid XML document.")
