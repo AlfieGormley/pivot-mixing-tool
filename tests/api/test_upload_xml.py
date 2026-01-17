@@ -27,7 +27,6 @@ def test_upload_xml_success(client):
     assert json_data['status'] == 'success'
     assert 'Successfully processed' in json_data['message']
     assert json_data['payload'] == 1
-    assert json_data['payload'][0]['Name'] == 'Test Track'
 
 # Request missing the file key
 def test_upload_xml_missing_key(client):
@@ -99,5 +98,4 @@ def test_upload_xml_with_no_playlists(client):
     assert response.status_code == 200
     json_data = response.get_json()
     assert json_data['status'] == 'success'
-    assert isinstance(json_data['payload'], int)
-    assert len(json_data['payload']) == 0 
+    assert json_data['payload'] == 0 
