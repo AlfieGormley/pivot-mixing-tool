@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getPivotBpm } from '../api/apiService';
 import { RangeSlider } from '@mantine/core';
 import PivotTrackSuggestions from './PivotTrackSuggestions';
+import BpmTile from './BpmTile';
 
 function PivotCalculator() {
   const [bpms, setBpms] = useState([110, 180]);
@@ -35,33 +36,41 @@ function PivotCalculator() {
         style={{
           marginTop: 200,
           marginBottom: 200,
-          marginLeft: 150,
-          alignItems: 'centre',
-          justifyContent: 'centre',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
         }}
       >
-        <div>
+        <div
+          style={{
+            width: 600, // or any fixed width you prefer
+            maxWidth: '90vw',
+            minWidth: 350,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
           {error && (
             <p style={{ color: 'red', marginTop: '15px' }}>Error: {error}</p>
           )}
           {result && (
-            <>
-              <div style={{ marginTop: '15px' }}>
-                <h3>Result:</h3>
-                <p>
-                  Pivot BPM: {result.pivot_bpm} (Ratio: {result.ratio})
-                </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 40 }}>
+              <div style={{ marginTop: 23 }}>
+                <BpmTile bpm={result.pivot_bpm} ratio={result.ratio}></BpmTile>
               </div>
               <PivotTrackSuggestions
                 pivotBpm={result.pivot_bpm}
               ></PivotTrackSuggestions>
-            </>
+            </div>
           )}
         </div>
 
         <RangeSlider
           style={{
-            maxWidth: '50%',
+            // maxWidth: '50%',
+            width: '50%',
+            marginTop: 40,
           }}
           min={110}
           max={180}
@@ -71,8 +80,8 @@ function PivotCalculator() {
           onChange={setBpms}
           thumbSize={26}
           marks={[
-            { value: bpms[0], label: `Origin BPM` },
-            { value: bpms[1], label: `Destination BPM` },
+            { value: bpms[0], label: `Origin` },
+            { value: bpms[1], label: `Destination` },
           ]}
         />
       </div>

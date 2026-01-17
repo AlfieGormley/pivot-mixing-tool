@@ -29,10 +29,36 @@ const LibraryUploader = () => {
 
   return (
     <>
-      <Group>
+      {uploadMessage && (
+        <Alert
+          withCloseButton
+          onClose={() => setUploadMessage('')}
+          icon={<IconCheck size={16} />}
+          color="green"
+        >
+          {uploadMessage}
+        </Alert>
+      )}
+
+      {error && (
+        <Alert
+          withCloseButton
+          onClose={() => setError(null)}
+          icon={<IconX size={16} />}
+          color="red"
+        >
+          {error}
+        </Alert>
+      )}
+      <Group style={{ marginTop: 50, justifyContent: 'center' }}>
         <FileInput
           style={{ width: 220 }}
           placeholder="Select Rekordbox XML Export"
+          styles={{
+            placeholder: {
+              color: '#fff',
+            },
+          }}
           accept=".xml"
           radius=""
           value={selectedFile}
@@ -45,43 +71,15 @@ const LibraryUploader = () => {
           disabled={!selectedFile || isLoading}
           loading={isLoading}
           style={{ alignSelf: 'flex-end' }}
+          styles={{
+            label: {
+              color: '#fff', // or any color you want
+            },
+          }}
         >
           Upload and Process
         </Button>
       </Group>
-
-      {uploadMessage && (
-        <Alert
-          withCloseButton
-          onClose={() => setUploadMessage('')}
-          mt="md"
-          icon={<IconCheck size={16} />}
-          color="green"
-          title="Success!"
-        >
-          {uploadMessage}
-        </Alert>
-      )}
-
-      {error && (
-        <Alert
-          withCloseButton
-          onClose={() => setError(null)}
-          mt="md"
-          icon={<IconX size={16} />}
-          color="red"
-          title="An Error Occurred"
-        >
-          {error}
-        </Alert>
-      )}
-      {trackData.length > 0 && (
-        <div style={{ marginTop: '20px' }}>
-          <h3>Processed Tracks:</h3>
-          <pre>{JSON.stringify(trackData.slice(0, 5), null, 2)}</pre>
-          <p>...and {trackData.length - 5} more.</p>
-        </div>
-      )}
     </>
   );
 };
