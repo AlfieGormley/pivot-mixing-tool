@@ -28,7 +28,7 @@ def calculate_fundamental_pivot_bpm(origin_bpm, destination_bpm, max_denominator
 def calculate_best_pivot_octave(origin_bpm, fundamental_pivot_bpm):
 
     octave = fundamental_pivot_bpm
-    while octave * 2 <= origin_bpm:
+    while octave * 2 < origin_bpm:
         octave *= 2
 
     return octave

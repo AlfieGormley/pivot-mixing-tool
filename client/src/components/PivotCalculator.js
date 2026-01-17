@@ -68,14 +68,13 @@ function PivotCalculator() {
 
         <RangeSlider
           style={{
-            // maxWidth: '50%',
             width: '50%',
             marginTop: 40,
           }}
           min={110}
           max={180}
           color="white"
-          step={0.1}
+          step={1}
           value={bpms}
           onChange={setBpms}
           thumbSize={26}
