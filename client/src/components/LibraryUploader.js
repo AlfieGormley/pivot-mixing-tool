@@ -19,7 +19,7 @@ const LibraryUploader = () => {
     try {
       const payload = await uploadRekordboxXml(selectedFile);
       setTrackData(payload);
-      setUploadMessage(`Successfully processed ${payload.length} tracks.`);
+      setUploadMessage(`Successfully processed ${payload} tracks.`);
     } catch (err) {
       setError(err.message);
     } finally {

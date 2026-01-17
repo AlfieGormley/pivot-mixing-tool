@@ -47,7 +47,7 @@ def upload_xml():
         save_tracks(parsed_tracks)
         
         return api_success(
-            data= parsed_tracks,
+            data= len(parsed_tracks),
             message=f"Successfully processed \"{file.filename}\"."
         )
 

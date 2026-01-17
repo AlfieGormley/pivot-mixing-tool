@@ -18,7 +18,6 @@ def find_tracks_by_bpm(target_bpm, range=0):
                 suitable_tracks.append(track)
         except (ValueError, TypeError):
             continue
-    
     return suitable_tracks
 
 def parse_rekordbox_xml(file_object):
