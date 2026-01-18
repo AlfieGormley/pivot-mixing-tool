@@ -19,7 +19,7 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
       - name: Run backend tests
-        run: pytest 
+        run: pytest --cov=flask-server --cov-report=term-missing
 
   frontend-tests:
     runs-on: ubuntu-latest
