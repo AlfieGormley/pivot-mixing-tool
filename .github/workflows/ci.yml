@@ -35,4 +35,4 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Run frontend tests
-        run: npm test -- --watchAll=false
+        run: npm test -- --coverage --watchAll=false
