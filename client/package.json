@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://127.0.0.1:5000",
+  "proxy": "http://127.0.0.1:5001",
   "dependencies": {
     "@mantine/core": "^8.3.12",
     "@mantine/hooks": "^8.3.12",
